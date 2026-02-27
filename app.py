@@ -1,10 +1,13 @@
 from flask import Flask, request, jsonify
 
-# Inicializa o aplicativo Flask (o seu servidor)
 app = Flask(__name__)
 
-# Cria uma "rota" (uma porta de entrada) chamada /webhook
-# A Pluggy só sabe mandar mensagens do tipo POST
+# --- NOVA ROTA PARA O UPTIMEROBOT ---
+@app.route('/', methods=['GET'])
+def manter_acordado():
+    return "Servidor acordado e pronto para a Pluggy!", 200
+# ------------------------------------
+
 @app.route('/webhook', methods=['POST'])
 def receber_webhook():
     # 1. Captura a mensagem (o pacote de dados JSON) que a Pluggy enviou
@@ -42,4 +45,5 @@ def receber_webhook():
 if __name__ == '__main__':
     print("🚀 Servidor Webhook rodando na porta 5000...")
     # O debug=True faz o servidor reiniciar sozinho se você alterar o código
+
     app.run(port=5000, debug=True)
